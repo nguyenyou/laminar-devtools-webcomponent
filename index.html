@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Lit + TS</title>
+    <link rel="stylesheet" href="./src/index.css" />
+    <script type="module" src="/src/laminar-devtools.ts"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div
+        data-source-path="App.scala:9"
+        style="
+          width: 600px;
+          height: 400px;
+          border: 1px solid black;
+          display: flex;
+          flex-direction: column;
+          padding: 12px;
+          align-items: start;
+        "
+      >
+        <button data-source-path="Button.scala:7">Click me</button
+        ><button data-source-path="Button.scala:7">Click me</button>
+        <div
+          data-source-path="Card.scala:7"
+          style="
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 8px;
+          "
+        >
+          <h3>Example Card</h3>
+          <div>
+            <p>This is some content inside the card.</p>
+            <button data-source-path="Button.scala:7">Click me</button>
+            <p>More content here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <laminar-devtools></laminar-devtools>
+  </body>
+</html>
