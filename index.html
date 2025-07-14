@@ -1,17 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Lit + TS</title>
+    <title>Laminar Devtools</title>
     <link rel="stylesheet" href="./src/index.css" />
     <script type="module" src="/src/laminar-devtools.ts"></script>
   </head>
   <body>
     <div id="app">
       <div
-        data-source-path="App.scala:9"
+        data-source-path="/Users/tunguyen/laminar-devtools/www/src/www/App.scala"
         style="
           width: 600px;
           height: 400px;
@@ -22,10 +22,17 @@
           align-items: start;
         "
       >
-        <button data-source-path="Button.scala:7">Click me</button
-        ><button data-source-path="Button.scala:7">Click me</button>
+        <button
+          data-source-path="/Users/tunguyen/laminar-devtools/www/src/www/components/Button.scala"
+        >
+          Click me</button
+        ><button
+          data-source-path="/Users/tunguyen/laminar-devtools/www/src/www/components/Button.scala"
+        >
+          Click me
+        </button>
         <div
-          data-source-path="Card.scala:7"
+          data-source-path="/Users/tunguyen/laminar-devtools/www/src/www/components/Card.scala"
           style="
             border: 1px solid rgb(204, 204, 204);
             border-radius: 8px;
@@ -36,7 +43,11 @@
           <h3>Example Card</h3>
           <div>
             <p>This is some content inside the card.</p>
-            <button data-source-path="Button.scala:7">Click me</button>
+            <button
+              data-source-path="/Users/tunguyen/laminar-devtools/www/src/www/components/Button.scala"
+            >
+              Click me
+            </button>
             <p>More content here.</p>
           </div>
         </div>
