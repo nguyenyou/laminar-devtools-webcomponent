@@ -17,6 +17,8 @@ export class LaminarDevtools extends LitElement {
   @state()
   private selectedNode: ComponentNode | null = null;
 
+  private mutationObserver: MutationObserver | null = null;
+
   static styles = css`
     :host {
       display: block;
@@ -102,16 +104,25 @@ export class LaminarDevtools extends LitElement {
     this.scanComponentTree();
 
     // Set up a mutation observer to automatically refresh when DOM changes
-    const observer = new MutationObserver(() => {
+    this.mutationObserver = new MutationObserver(() => {
       this.scanComponentTree();
     });
 
-    observer.observe(document.body, {
+    this.mutationObserver.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
       attributeFilter: ["data-source-path"],
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
+    }
+    this.clearHighlights();
   }
 
   private scanComponentTree() {
