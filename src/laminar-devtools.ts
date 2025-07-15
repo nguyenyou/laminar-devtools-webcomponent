@@ -9,6 +9,11 @@ interface ComponentNode {
   depth: number;
 }
 
+interface LaminarComponentInfo {
+  sourcePath: string;
+  tagName: string;
+}
+
 @customElement("laminar-devtools")
 export class LaminarDevtools extends LitElement {
   @state()
@@ -112,7 +117,7 @@ export class LaminarDevtools extends LitElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["data-source-path"],
+      attributeFilter: [],
     });
   }
 
@@ -126,16 +131,27 @@ export class LaminarDevtools extends LitElement {
   }
 
   private scanComponentTree() {
-    const rootElements = this.findElementsWithSourcePath(document.body);
-    this.componentTree = this.buildTree(rootElements);
+    const laminarComponents = this.findLaminarComponents(document.body);
+    this.componentTree = this.buildComponentTree(laminarComponents);
   }
 
-  private findElementsWithSourcePath(root: Element): HTMLElement[] {
+  private isLaminarComponent(element: HTMLElement): boolean {
+    return element.hasAttribute("data-source-path");
+  }
+
+  private extractLaminarComponentInfo(element: HTMLElement): LaminarComponentInfo {
+    return {
+      sourcePath: element.getAttribute("data-source-path") || "",
+      tagName: element.tagName.toLowerCase(),
+    };
+  }
+
+  private findLaminarComponents(root: Element): HTMLElement[] {
     const elements: HTMLElement[] = [];
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, {
       acceptNode: (node) => {
         const element = node as HTMLElement;
-        if (element.hasAttribute("data-source-path")) {
+        if (this.isLaminarComponent(element)) {
           return NodeFilter.FILTER_ACCEPT;
         }
         return NodeFilter.FILTER_SKIP;
@@ -150,15 +166,15 @@ export class LaminarDevtools extends LitElement {
     return elements;
   }
 
-  private buildTree(elements: HTMLElement[]): ComponentNode[] {
+  private buildComponentTree(elements: HTMLElement[]): ComponentNode[] {
     const nodes: ComponentNode[] = [];
 
     for (const element of elements) {
-      const sourcePath = element.getAttribute("data-source-path") || "";
+      const componentInfo = this.extractLaminarComponentInfo(element);
       const node: ComponentNode = {
         element,
-        sourcePath,
-        tagName: element.tagName.toLowerCase(),
+        sourcePath: componentInfo.sourcePath,
+        tagName: componentInfo.tagName,
         children: [],
         depth: 0,
       };
